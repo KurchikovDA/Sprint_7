@@ -1,8 +1,9 @@
 package courier;
 
+
 import java.util.Random;
-//Класс CourierDataForTest предоставляет тестовые данные для тестирования функционала, связанного с курьерами.
-public class CourierDataForTest {
+//Класс CourierData предоставляет тестовые данные для тестирования функционала, связанного с курьерами.
+public class CourierData {
     private final String existingLogin;      // Существующий логин курьера
     private final String nonExistentLogin;      // Несуществующий логин курьера
     private final String existingPassword;   // Существующий пароль курьера
@@ -10,7 +11,7 @@ public class CourierDataForTest {
     private final String firstName;          // Имя курьера
 
     //Конструктор класса, инициализирующий тестовые данные
-public CourierDataForTest() {
+public CourierData() {
     this.existingLogin = randomLoginOrPass(9);         // Генерация случайного логина
     this.nonExistentLogin = randomLoginOrPass(9) + "kek"; // Генерация случайного несуществующего логина при добавлении "kek"
     this.existingPassword = "existPass";                      // Установка существующего пароля

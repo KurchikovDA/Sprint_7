@@ -1,9 +1,10 @@
-package orderTest;
+package order_test;
 
 import io.qameta.allure.Description;
 import io.qameta.allure.junit4.DisplayName;
 import io.restassured.RestAssured;
 import io.restassured.response.ValidatableResponse;
+import order.Client;
 import order.OrderStepMethods;
 import org.junit.Assert;
 import org.junit.Before;
@@ -12,17 +13,18 @@ import org.junit.Test;
 import java.util.HashMap;
 import java.util.List;
 
-import static constants.ApiConstants.SCOOTER_URL;
+
+
 
 //Класс теста для проверки того, что в тело ответа возвращается список заказов.
-public class GetOrderListTest {
+public class GetOrderListTest extends Client {
     // Создаю приватное поле orderStepMethods типа OrderStepMethods
     private OrderStepMethods orderStepMethods;
 
     @Before
     public void setUp() {
-        // Устанавливаю базовый URI перед каждым тестом
-        RestAssured.baseURI = SCOOTER_URL;
+        // Устанавливаю предварительно настроенную спецификацию запроса
+        RestAssured.requestSpecification = requestSpec;
         // Инициализирую экземпляр класса, содержащего методы для работы с заказами
         orderStepMethods = new OrderStepMethods();
     }
@@ -40,6 +42,6 @@ public class GetOrderListTest {
         // Проверяю, что статус код равен 200
         Assert.assertEquals(200, actualStatusCodeCreate);
         // Проверяю, что тело ответа не пусто
-        Assert.assertNotNull(orderBody);
+        Assert.assertFalse("Список заказов пуст", orderBody.isEmpty());
     }
 }

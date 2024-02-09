@@ -1,28 +1,29 @@
-package courierTest;
+package courier_test;
 
-import static constants.ApiConstants.SCOOTER_URL;
 import static org.hamcrest.CoreMatchers.equalTo;
 
 import courier.Courier;
-import courier.CourierDataForTest;
+import courier.CourierData;
 import courier.CourierStepMethods;
 import io.qameta.allure.Description;
 import io.qameta.allure.junit4.DisplayName;
 import io.restassured.RestAssured;
 import io.restassured.response.Response;
+import order.Client;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
 //Класс тестов для проверки создания курьеров через API
-public class CreateCourierTest {
-    private final CourierDataForTest courierDataForTest = new CourierDataForTest(); // Объект для получения тестовых данных
+public class CreateCourierTest extends Client {
+    private final CourierData courierData = new CourierData(); // Объект для получения тестовых данных
     String id = null; // Переменная для хранения id курьера
 
     //Устанавливаю базовый URI для RestAssured
     @Before
+    // Устанавливаю предварительно настроенную спецификацию запроса в RestAssured перед каждым запуском теста.
     public void setUp() {
-        RestAssured.baseURI = SCOOTER_URL;
+        RestAssured.requestSpecification = requestSpec;
     }
 
     //Тест на создание курьера с валидно заполненными полями.
@@ -31,7 +32,7 @@ public class CreateCourierTest {
     @Description("Создание курьера с валидно заполеннными полями")
 public void createCourier () {
         // Создаю объект курьера с валидными данными
-        Courier courier = new Courier(courierDataForTest.getExistingLogin(), courierDataForTest.getExistingPassword(), courierDataForTest.getFirstName());
+        Courier courier = new Courier(courierData.getExistingLogin(), courierData.getExistingPassword(), courierData.getFirstName());
         // Отправляю запрос на создание курьер
         Response response = CourierStepMethods.createCourier(courier);
         // Получаю ID курьера после его создания
@@ -50,7 +51,7 @@ public void createCourier () {
     @Description("Создание курьера только с паролем и именем")
 public void createCourierWithoutLogin () {
         // Создаю объект курьера без логина
-        Courier courier = new Courier("", courierDataForTest.getExistingPassword(), courierDataForTest.getFirstName());
+        Courier courier = new Courier("", courierData.getExistingPassword(), courierData.getFirstName());
         // Отправляю запрос на создание курьер
         Response response = CourierStepMethods.createCourier(courier);
         // Проверяю статус код и тело ответа
@@ -65,7 +66,7 @@ public void createCourierWithoutLogin () {
     @Description("Создание курьера только с логином и именем")
     public void createCourierWithoutPassword() {
         // Создаю объект курьера без пароля
-        Courier courier = new Courier(courierDataForTest.getExistingLogin(), "", courierDataForTest.getFirstName());
+        Courier courier = new Courier(courierData.getExistingLogin(), "", courierData.getFirstName());
         // Отправляю запрос на создание курьер
         Response response = CourierStepMethods.createCourier(courier);
         // Проверяю статус код и тело ответа
@@ -80,7 +81,7 @@ public void createCourierWithoutLogin () {
     @Description("Создание курьера с валидными данными и повтор создания этого же курьера")
     public void createDoubleCouriers() {
         // Создаю объект курьера со всеми валидными данными
-        Courier courier = new Courier(courierDataForTest.getExistingLogin(), courierDataForTest.getExistingPassword(), courierDataForTest.getFirstName());
+        Courier courier = new Courier(courierData.getExistingLogin(), courierData.getExistingPassword(), courierData.getFirstName());
         // Отправляю запрос на создание курьер
         CourierStepMethods.createCourier(courier);
         // Повторно отправляем запрос на создание того же курьера
