@@ -1,6 +1,3 @@
-package courier_test;
-
-
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.notNullValue;
 

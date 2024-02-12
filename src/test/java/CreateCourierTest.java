@@ -1,5 +1,3 @@
-package courier_test;
-
 import static org.hamcrest.CoreMatchers.equalTo;
 
 import courier.Courier;
